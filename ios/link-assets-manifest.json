@@ -1,0 +1,141 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/Assets/fonts/FilsonProBlack.otf",
+      "sha1": "6d39644d97139919703f6d1aa5bf967c542ea288"
+    },
+    {
+      "path": "src/Assets/fonts/FilsonProBold.otf",
+      "sha1": "faeecd2168ce1e0f2ce4587dc53a8dcf822e0aeb"
+    },
+    {
+      "path": "src/Assets/fonts/FilsonProBook.otf",
+      "sha1": "12c5b8db4568415016d8e5321bc92646c4dff3c5"
+    },
+    {
+      "path": "src/Assets/fonts/FilsonProHeavy.otf",
+      "sha1": "1e900dc2c8337446e5076ed544b643e3fb6d45e3"
+    },
+    {
+      "path": "src/Assets/fonts/FilsonProLight.otf",
+      "sha1": "7967d85e68607e09c0ba02f88a93db2f80f18cb8"
+    },
+    {
+      "path": "src/Assets/fonts/FilsonProMedium.otf",
+      "sha1": "d71e213519c911b66f24310267499d3f3b20ff64"
+    },
+    {
+      "path": "src/Assets/fonts/FilsonProRegular.otf",
+      "sha1": "a42e1cbffef3bf54c3aaaf219f592167ac9f082d"
+    },
+    {
+      "path": "src/Assets/fonts/FilsonProThin.otf",
+      "sha1": "ff6652bb0448243c04f332a381289b358b2d3d69"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-Black.ttf",
+      "sha1": "41d7d53d34ae67d9dc54979abee04f3514163740"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-Bold.ttf",
+      "sha1": "7fe4d8cf5325dd47363d0f80fefb40ac7df5d5a6"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-ExtraBold.ttf",
+      "sha1": "eb2b7042895e0fe98ea023f3e45048f9d152127e"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-Heavy.ttf",
+      "sha1": "3e47b596a6cc4ad3ac4f79353c4bddc987bc84bc"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-Light.ttf",
+      "sha1": "510faebaff56ce8b518fc84bdd1aefeefae00b65"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-Medium.ttf",
+      "sha1": "d7f893124bd4fff78805e69df31385ae113368be"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-Regular.ttf",
+      "sha1": "a737c19356e50cb9a50eb64ca7446c80dd3aa3e3"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-SemiBold.ttf",
+      "sha1": "8663a356eb9bc23b77696208f74376daf59687ea"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-Thin.ttf",
+      "sha1": "af4998778ceb58ef38ff3fe5441eec696cb970dc"
+    },
+    {
+      "path": "src/Assets/fonts/Gilroy-UltraLight.ttf",
+      "sha1": "1cfbfa447c336558c8ab3389bb11015adebf744f"
+    },
+    {
+      "path": "src/Assets/fonts/Manrope-Bold.ttf",
+      "sha1": "a6b63c832d12337efb3123f47863f54472c81bf5"
+    },
+    {
+      "path": "src/Assets/fonts/Manrope-ExtraBold.ttf",
+      "sha1": "01e9f1ed4df60771240fd42f5ac9dcaf398f110b"
+    },
+    {
+      "path": "src/Assets/fonts/Manrope-ExtraLight.ttf",
+      "sha1": "03f11f0309f7f955fe90e3fdf22fee5e60bada4e"
+    },
+    {
+      "path": "src/Assets/fonts/Manrope-Light.ttf",
+      "sha1": "67a7446c44660168ed179812753b03390858aa92"
+    },
+    {
+      "path": "src/Assets/fonts/Manrope-Medium.ttf",
+      "sha1": "d62e1b2498f65ea5bc20fc5e365d19239527b419"
+    },
+    {
+      "path": "src/Assets/fonts/Manrope-Regular.ttf",
+      "sha1": "036b14064c7b90b4b200f2730981effea5e58b15"
+    },
+    {
+      "path": "src/Assets/fonts/Manrope-SemiBold.ttf",
+      "sha1": "e423e112f4832916b05308934c10aa84fd14c607"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-Black.ttf",
+      "sha1": "d33f0dae39375bd0a709204bd801951886078e3c"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-Bold.ttf",
+      "sha1": "b25f6f60c22feaf33ec829c7ae6bb086af2f4d9e"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-ExtraBold.ttf",
+      "sha1": "4349fd2723b54c7ddb39455af90f4fbaaae4700c"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-ExtraLight.ttf",
+      "sha1": "0290886af87e6ed71ce0cf3dca8a7990a8d3833a"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-Light.ttf",
+      "sha1": "19bb34834335dad3c8b3a74f1f700c6e3cafebce"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-Medium.ttf",
+      "sha1": "da11e2077535e358e004b439591d701f710918d2"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-Regular.ttf",
+      "sha1": "12ec7ea7813fc67247fbae7b8290b61b1559ec25"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-SemiBold.ttf",
+      "sha1": "b5d08f8959820a3797d083cdf84e0e7304f85dc4"
+    },
+    {
+      "path": "src/Assets/fonts/Urbanist-Thin.ttf",
+      "sha1": "389d3f0cc612946cddf5e894f30d35de205b9017"
+    }
+  ]
+}
