@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "595034625544",
+    "project_id": "northern-sight-412011",
+    "storage_bucket": "northern-sight-412011.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595034625544:android:389dbd9a1781b561fa23bd",
+        "android_client_info": {
+          "package_name": "com.pureh2o"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrWDMZz44oRk_i-tIamePB9a5V-bfZSg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

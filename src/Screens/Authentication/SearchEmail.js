@@ -1,32 +1,37 @@
-import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {ConstantStyles} from '../../Constants/Styles';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
-import {Colors} from '../../Constants/Colors';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { ConstantStyles } from '../../Constants/Styles';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { Colors } from '../../Constants/Colors';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import {Font} from '../../Constants/font';
+import { Font } from '../../Constants/font';
 import CustomButton from '../../Components/CustomButton';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import CustomInput from '../../Components/Inputs/CustomInput';
 import Error from '../../Components/Errors/Error';
+import Services from '../../Api/Services';
+import Toast from 'react-native-toast-message';
+import toastConfig from '../../Constants/ToastConfig';
 const CELL_COUNT = 4;
 
-const SearchEmailScreen = ({navigation}) => {
+const SearchEmailScreen = ({ navigation }) => {
   const {
     control,
     handleSubmit,
-    formState: {errors, isValid},
-  } = useForm({mode: 'all'});
+    formState: { errors, isValid },
+  } = useForm({ mode: 'all' });
 
   // State Variables
   const [count, setCount] = useState(10);
   const [value, setValue] = useState();
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+
+  const [buttonLoading, setButtonLoaing] = useState(false);
+  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
@@ -38,13 +43,16 @@ const SearchEmailScreen = ({navigation}) => {
     console.log('====================================');
     console.log(data);
     console.log('====================================');
-    navigation.navigate('Otp', {otp: 1234, type : "forgot"});
+    const formData = new FormData();
+    formData.append("phoneNumber", data.email);
+    Services.checkPhoneNumber(formData, navigation, setButtonLoaing,data.email);
+    // navigation.navigate('Otp', { otp: 1234, type: "forgot", userDetails:formData });
   };
 
   // Render Functions
   return (
-    <View style={[ConstantStyles.screen, {padding: scale(0)}]}>
-      <View style={{height: scale(55), marginVertical: scale(25)}}>
+    <View style={[ConstantStyles.screen, { padding: scale(0) }]}>
+      <View style={{ height: scale(55), marginVertical: scale(25) }}>
         <Image
           source={require('../../Assets/Images/Banner.png')}
           style={ConstantStyles.bannerImage}
@@ -57,13 +65,13 @@ const SearchEmailScreen = ({navigation}) => {
           paddingHorizontal: scale(20),
           marginBottom: scale(20),
         }}>
-        <View style={{marginVertical: scale(10)}}>
+        <View style={{ marginVertical: scale(10) }}>
           <Text style={ConstantStyles.mainHeadingText}>
             Forgot Password?
           </Text>
         </View>
         <Text style={ConstantStyles.subText}>
-          No worries, we got you covered, enter your email and we'll end you an
+          No worries, we got you covered, enter your phone number and we'll send you an
           opt
         </Text>
       </View>
@@ -76,32 +84,35 @@ const SearchEmailScreen = ({navigation}) => {
             borderTopRightRadius: scale(30),
           },
         ]}>
-        <View style={{marginTop: verticalScale(60), marginBottom: scale(50)}}>
+        <View style={{ marginTop: verticalScale(60), marginBottom: scale(50) }}>
           <CustomInput
             fontSize={scale(16)}
             MaterialIcons={true}
-            restyle={{paddingHorizontal: moderateScale(10)}}
-            MaterialIcons_Name="email"
+            restyle={{ paddingHorizontal: moderateScale(10) }}
+            MaterialIcons_Name="phone"
             size={scale(20)}
             control={control}
-            keyboardType="email-address"
+            keyboardType="phone-pad"
             name="email"
             rules={{
-              required: 'Email is required',
-              pattern: {
-                value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-                message: 'Email is not valid',
-              },
+              required: 'Phone Number is required',
+              // pattern: {
+              //   value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+              //   message: 'Email is not valid',
+              // },
             }}
-            placeholder="Email Address"
+            placeholder="Phone Number"
           />
           {errors.email && (
-            <Error textStyle={{color: 'red'}} text={errors.email.message} />
+            <Error textStyle={{ color: 'red' }} text={errors.email.message} />
           )}
         </View>
         <CustomButton
           onPress={handleSubmit(onSubmit)}
-          textStyle={{color: Colors.PrimaryBlue}}
+          loading={
+            buttonLoading
+          }
+          textStyle={{ color: Colors.PrimaryBlue }}
           containerRestyle={{
             marginTop: scale(30),
             backgroundColor: Colors.ScreenBackGroundColor,
@@ -109,6 +120,7 @@ const SearchEmailScreen = ({navigation}) => {
           title={'Continue'}
         />
       </View>
+      <Toast config={toastConfig} />
     </View>
   );
 };

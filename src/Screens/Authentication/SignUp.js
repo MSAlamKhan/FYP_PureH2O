@@ -1,4 +1,4 @@
-import React, {PureComponent, useState} from 'react';
+import React, { PureComponent, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {ConstantStyles} from '../../Constants/Styles';
+import { ConstantStyles } from '../../Constants/Styles';
 import {
   scale,
   verticalScale,
@@ -15,29 +15,56 @@ import {
   moderateScale,
 } from 'react-native-size-matters';
 
-import {useForm} from 'react-hook-form';
-import {Font} from '../../Constants/font';
-import {Colors} from '../../Constants/Colors';
+import { useForm } from 'react-hook-form';
+import { Font } from '../../Constants/font';
+import { Colors } from '../../Constants/Colors';
 import CustomInput from '../../Components/Inputs/CustomInput';
 import PasswordInput from '../../Components/Inputs/PasswordInput';
 import Error from '../../Components/Errors/Error';
 import CustomButton from '../../Components/CustomButton';
+import auth from '@react-native-firebase/auth';
+import Toast from 'react-native-toast-message';
+import Services from '../../Api/Services';
+import toastConfig from '../../Constants/ToastConfig';
 
-const SignUpScreen = ({navigation}) => {
+const SignUpScreen = ({ navigation }) => {
   // State Variables
   const [accountType, SetAccountType] = useState('shop');
-
+  const [buttonLoading, setButtonLoaing] = useState(false);
   // UseForm Hook
   const {
     control,
     handleSubmit,
-    formState: {errors, isValid},
-  } = useForm({mode: 'all'});
+    formState: { errors, isValid },
+  } = useForm({ mode: 'all' });
 
   // SignUp Function
 
-  const SignUp = () => {
-    navigation.navigate('Otp', {otp: 1234});
+  const SignUp = (data) => {
+    setButtonLoaing(true);
+    console.log("data in form =>", data.contact.slice(1));
+    const formData = new FormData();
+    formData.append("phoneNumber", data.contact);
+    // Services.checkPhoneNumber(formData);
+    auth().signInWithPhoneNumber(`+92${data.contact.slice(1)}`, true).then((validator) => {
+      navigation.navigate('Otp', { otpValidator: validator, userDetails: { ...data, role_id: accountType == "shop" ? 1 : 2 } });
+    }).catch((error) => {
+      console.log(error);
+      let message;
+      if (error.code === 'auth/too-many-requests') {
+        message = "Too Many requests, please try again in 4 hours"
+      } else if (error.code === 'auth/invalid-phone-number') {
+        message = "The phone number provided is incorrect."
+      }
+      Toast.show({
+        type: "tomatoToast",
+        text1: message,
+        onHide: () => setButtonLoaing(false)
+      })
+      // console.log(error);
+    })
+    // navigation.navigate('Otp', { otpValidator: 123456, userDetails: { ...data, role_id: accountType == "shop" ? 1 : 2 } });
+
   };
 
   // Custom Component
@@ -93,7 +120,7 @@ const SignUpScreen = ({navigation}) => {
   // This retruns /  renders the componenet on the screen
   return (
     <ScrollView style={[ConstantStyles.screen]}>
-      <View style={{height: scale(55), marginVertical: scale(25)}}>
+      <View style={{ height: scale(55), marginVertical: scale(25) }}>
         <Image
           source={require('../../Assets/Images/Banner.png')}
           style={ConstantStyles.bannerImage}
@@ -109,11 +136,11 @@ const SignUpScreen = ({navigation}) => {
         <Text style={ConstantStyles.authText}>Sign Up</Text>
       </View>
       {AccountSelector()}
-      <View style={{paddingHorizontal: moderateScale(10)}}>
+      <View style={{ paddingHorizontal: moderateScale(10) }}>
         <CustomInput
           fontSize={scale(16)}
           Feather={true}
-          restyle={{paddingHorizontal: moderateScale(10)}}
+          restyle={{ paddingHorizontal: moderateScale(10) }}
           Feather_Name={'user'}
           size={scale(20)}
           control={control}
@@ -130,7 +157,7 @@ const SignUpScreen = ({navigation}) => {
         />
         {errors.fullName && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.fullName.message}
           />
         )}
@@ -139,7 +166,7 @@ const SignUpScreen = ({navigation}) => {
             <CustomInput
               fontSize={scale(16)}
               IonIcons={true}
-              restyle={{paddingHorizontal: moderateScale(10)}}
+              restyle={{ paddingHorizontal: moderateScale(10) }}
               IonIcons_Name="business"
               size={scale(20)}
               control={control}
@@ -156,7 +183,7 @@ const SignUpScreen = ({navigation}) => {
             />
             {errors.shopName && (
               <Error
-                textStyle={{color: Colors.Black}}
+                textStyle={{ color: Colors.Black }}
                 text={errors.shopName.message}
               />
             )}
@@ -165,7 +192,7 @@ const SignUpScreen = ({navigation}) => {
         <CustomInput
           fontSize={scale(16)}
           IonIcons={true}
-          restyle={{paddingHorizontal: moderateScale(10)}}
+          restyle={{ paddingHorizontal: moderateScale(10) }}
           IonIcons_Name={
             accountType == 'shop' ? 'business-outline' : 'home-outline'
           }
@@ -187,7 +214,7 @@ const SignUpScreen = ({navigation}) => {
         />
         {errors.address && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.address.message}
           />
         )}
@@ -195,7 +222,7 @@ const SignUpScreen = ({navigation}) => {
         <CustomInput
           fontSize={scale(16)}
           Feather={true}
-          restyle={{paddingHorizontal: moderateScale(10)}}
+          restyle={{ paddingHorizontal: moderateScale(10) }}
           Feather_Name={'phone'}
           size={scale(20)}
           control={control}
@@ -212,7 +239,7 @@ const SignUpScreen = ({navigation}) => {
         />
         {errors.contact && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.contact.message}
           />
         )}
@@ -220,7 +247,7 @@ const SignUpScreen = ({navigation}) => {
         <CustomInput
           fontSize={scale(16)}
           MaterialIcons={true}
-          restyle={{paddingHorizontal: moderateScale(10)}}
+          restyle={{ paddingHorizontal: moderateScale(10) }}
           MaterialIcons_Name="email"
           size={scale(20)}
           control={control}
@@ -237,7 +264,7 @@ const SignUpScreen = ({navigation}) => {
         />
         {errors.email && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.email.message}
           />
         )}
@@ -263,7 +290,7 @@ const SignUpScreen = ({navigation}) => {
 
         {errors.password && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.password.message}
           />
         )}
@@ -290,18 +317,20 @@ const SignUpScreen = ({navigation}) => {
 
         {errors.confirmPassword && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.confirmPassword.message}
           />
         )}
         <CustomButton
+          loading={buttonLoading}
           onPress={handleSubmit(SignUp)}
-          textStyle={{color: Colors.White}}
-          containerRestyle={{marginTop: scale(30)}}
+          textStyle={{ color: Colors.White }}
+          containerRestyle={{ marginTop: scale(30) }}
           title={'SIGN UP'}
         />
       </View>
-      <View style={{height: scale(50)}} />
+      <View style={{ height: scale(50) }} />
+      <Toast config={toastConfig} topOffset={scale(150)} />
     </ScrollView>
   );
 };

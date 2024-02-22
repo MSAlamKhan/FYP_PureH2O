@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react';
-import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import {ConstantStyles} from '../../Constants/Styles';
+import React, { PureComponent, useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { ConstantStyles } from '../../Constants/Styles';
 import {
   scale,
   verticalScale,
@@ -8,30 +8,39 @@ import {
   moderateScale,
 } from 'react-native-size-matters';
 
-import {useForm} from 'react-hook-form';
-import {Font} from '../../Constants/font';
-import {Colors} from '../../Constants/Colors';
+import { useForm } from 'react-hook-form';
+import { Font } from '../../Constants/font';
+import { Colors } from '../../Constants/Colors';
 import CustomInput from '../../Components/Inputs/CustomInput';
 import PasswordInput from '../../Components/Inputs/PasswordInput';
 import Error from '../../Components/Errors/Error';
 import CustomButton from '../../Components/CustomButton';
-import {useDispatch} from 'react-redux';
-import {LOGIN} from '../../Redux/Types';
-const SignInScreen = ({navigation}) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { LOGIN } from '../../Redux/Types';
+import Services from '../../Api/Services';
+import Toast from 'react-native-toast-message';
+import toastConfig from '../../Constants/ToastConfig';
+const SignInScreen = ({ navigation }) => {
   // UseForm Hook
 
   const {
     control,
     handleSubmit,
-    formState: {errors, isValid},
-  } = useForm({mode: 'all'});
+    formState: { errors, isValid },
+  } = useForm({ mode: 'all' });
 
   const dispatch = useDispatch();
 
+  const [buttonLoading, setButtonLoaing] = useState(false);
   // button method
 
   const onSubmit = data => {
-    dispatch({type: LOGIN, payload: data.email});
+    setButtonLoaing(true);
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password)
+    Services.login(formData, setButtonLoaing, dispatch)
+    // dispatch({ type: LOGIN, payload: userDetials });
   };
 
   // Render Function
@@ -60,28 +69,28 @@ const SignInScreen = ({navigation}) => {
           Sign In
         </Text>
       </View>
-      <View style={{paddingHorizontal: moderateScale(10)}}>
+      <View style={{ paddingHorizontal: moderateScale(10) }}>
         <CustomInput
           fontSize={scale(16)}
           MaterialIcons={true}
-          restyle={{paddingHorizontal: moderateScale(10)}}
-          MaterialIcons_Name="email"
+          restyle={{ paddingHorizontal: moderateScale(10) }}
+          MaterialIcons_Name="phone"
           size={scale(20)}
           control={control}
-          keyboardType="email-address"
+          keyboardType="phone-pad"
           name="email"
           rules={{
-            required: 'Email is required',
-            pattern: {
-              value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-              message: 'Email is not valid',
-            },
+            required: 'Phone Number is required',
+            // pattern: {
+            //   // value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            //   message: 'Email is not valid',
+            // },
           }}
-          placeholder="Email Address"
+          placeholder="Phone Number"
         />
         {errors.email && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.email.message}
           />
         )}
@@ -107,7 +116,7 @@ const SignInScreen = ({navigation}) => {
 
         {errors.password && (
           <Error
-            textStyle={{color: Colors.Black}}
+            textStyle={{ color: Colors.Black }}
             text={errors.password.message}
           />
         )}
@@ -141,8 +150,9 @@ const SignInScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <CustomButton
+          loading={buttonLoading}
           onPress={handleSubmit(onSubmit)}
-          textStyle={{color: Colors.White}}
+          textStyle={{ color: Colors.White }}
           title={'SIGN IN'}
         />
       </View>
@@ -158,7 +168,7 @@ const SignInScreen = ({navigation}) => {
             fontSize: scale(13),
             fontFamily: Font.Gilroy600,
           }}>
-          Create new account{' '}
+          Dont have an account?{' '}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Sign-up')}>
           <Text
@@ -171,6 +181,7 @@ const SignInScreen = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
+      <Toast config={toastConfig} />
     </View>
   );
 };

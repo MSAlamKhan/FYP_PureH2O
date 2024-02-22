@@ -1,18 +1,20 @@
-import React, {PureComponent} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {scale} from 'react-native-size-matters';
-import {Colors} from '../Constants/Colors';
-import {Font} from '../Constants/font';
+import React, { PureComponent } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { scale } from 'react-native-size-matters';
+import { Colors } from '../Constants/Colors';
+import { Font } from '../Constants/font';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {ConstantStyles} from '../Constants/Styles';
+import { ConstantStyles } from '../Constants/Styles';
 
 const BalanceCard = props => {
+
+  console.log("props.user.role_id",props.user);
   //render Function
 
   return (
     <>
       <View style={styles.TopCard}>
-        <View style={{marginVertical: scale(10)}}>
+        <View style={{ marginVertical: scale(10) }}>
           <Text
             style={{
               color: Colors.PrimaryBlue,
@@ -28,13 +30,13 @@ const BalanceCard = props => {
             fontFamily: Font.Gilroy600,
             color: Colors.PrimaryBlue,
           }}>
-          $125.432,12
+          Rs.{props.user.balance}
         </Text>
       </View>
       <View style={styles.BottomCard}>
         <View style={styles.buttons}>
           <TouchableOpacity
-          onPress={props.onWithdraw}
+            onPress={() => props.user.role_id == 1 ? props.navigation.navigate("Withdraw") : props.navigation.navigate("Recharge")}
             style={[
               styles.ImageIcon,
               {
@@ -46,11 +48,11 @@ const BalanceCard = props => {
               style={ConstantStyles.bannerImage}
             />
           </TouchableOpacity>
-          <Text style={{fontSize: scale(12), fontFamily: Font.Gilroy500}}>
-            Withdraw
+          <Text style={{ fontSize: scale(12), fontFamily: Font.Gilroy500 }}>
+            {props.user.role_id == 1 ? "Withdraw" : "Recharge"}
           </Text>
         </View>
-        <View style={styles.buttons}>
+        {/* <View style={styles.buttons}>
           <TouchableOpacity
             style={[
               styles.ImageIcon,
@@ -63,10 +65,10 @@ const BalanceCard = props => {
               style={ConstantStyles.bannerImage}
             />
           </TouchableOpacity>
-          <Text style={{fontSize: scale(12), fontFamily: Font.Gilroy500}}>
+          <Text style={{ fontSize: scale(12), fontFamily: Font.Gilroy500 }}>
             Transaction
           </Text>
-        </View>
+        </View> */}
       </View>
     </>
   );
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
-  buttons: {alignItems: 'center', justifyContent: 'center'},
+  buttons: { alignItems: 'center', justifyContent: 'center' },
 
   ImageIcon: {
     height: scale(50),

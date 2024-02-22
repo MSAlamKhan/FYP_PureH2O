@@ -1,33 +1,33 @@
-import React, {PureComponent} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Colors} from '../../Constants/Colors';
-import {ConstantStyles} from '../../Constants/Styles';
-import {scale} from 'react-native-size-matters';
-import {useNavigation} from '@react-navigation/native';
-import {Font} from '../../Constants/font';
+import { Colors } from '../../Constants/Colors';
+import { ConstantStyles } from '../../Constants/Styles';
+import { scale } from 'react-native-size-matters';
+import { useNavigation } from '@react-navigation/native';
+import { Font } from '../../Constants/font';
 
-const Header = ({navigation, title, image}) => {
+const Header = ({ navigation, title, image }) => {
   // render Function
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Ionicons
           name="menu"
           size={scale(30)}
           color={Colors.PrimaryBlue}
           onPress={() => navigation.openDrawer()}
-          style={{alignSelf: 'center'}}
+          style={{ alignSelf: 'center' }}
         />
-        <View style={{marginLeft: scale(20)}}>
+        <View style={{ marginLeft: scale(20) }}>
           <Text
             style={{
               color: Colors.Gray,
               fontFamily: Font.Poppins700,
               fontSize: scale(15),
             }}>
-            Hello, Developer
+            Welcome, {title}
           </Text>
           <Text
             style={{
@@ -39,9 +39,9 @@ const Header = ({navigation, title, image}) => {
           </Text>
         </View>
       </View>
-      <TouchableOpacity 
-      onPress={()=>navigation.navigate("Profile-Home")}
-      style={styles.profileImage}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Profile-Home")}
+        style={styles.profileImage}>
         <Image
           source={require('../../Assets/Images/icon.jpg')}
           style={ConstantStyles.bannerImage}

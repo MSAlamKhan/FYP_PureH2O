@@ -1,47 +1,70 @@
-import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {ConstantStyles} from '../../Constants/Styles';
-import {scale, verticalScale} from 'react-native-size-matters';
-import {Colors} from '../../Constants/Colors';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { ConstantStyles } from '../../Constants/Styles';
+import { scale, verticalScale } from 'react-native-size-matters';
+import { Colors } from '../../Constants/Colors';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import {Font} from '../../Constants/font';
+import { Font } from '../../Constants/font';
 import CustomButton from '../../Components/CustomButton';
-const CELL_COUNT = 4;
-const OtpScreen = ({navigation, route}) => {
+import Services from '../../Api/Services';
+import { useDispatch } from 'react-redux';
+import Toast from 'react-native-toast-message';
+import toastConfig from '../../Constants/ToastConfig';
+const CELL_COUNT = 6;
+const OtpScreen = ({ navigation, route }) => {
 
-    const {otp, type} = route.params;
+  const { type, userDetails, otpValidator } = route.params;
 
   // State Variables
   const [count, setCount] = useState(10);
   const [value, setValue] = useState();
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const dispatch = useDispatch();
+
+  const [buttonLoading, setButtonLoaing] = useState(false);
+  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
-console.log('====================================');
-console.log(type );
-console.log('====================================');
 
-// Button Method
+  // Button Method
 
-const onSubmit = () =>{
-  if (value == otp && type == "forgot") {
-    navigation.navigate("Change-password")
-  } else {
-    navigation.navigate("Sign-In");
+  const onSubmit = () => {
+    setButtonLoaing(true);
+    otpValidator.confirm(value).then((result) => {
+      if (type == "forgot") {
+        setButtonLoaing(false);
+        navigation.navigate("Change-password", { formData: userDetails, type: "hehe" })
+      } else {
+        const formData = new FormData();
+        console.log(userDetails.role_id);
+        formData.append("role", userDetails.role_id);
+        formData.append("name", userDetails.fullName);
+        { userDetails.role_id == 1 && formData.append("shopName", userDetails.shopName); }
+        {
+          userDetails.role_id == 1 ? formData.append("shopAddress", userDetails.address) : formData.append("homeAddres", userDetails.address);
+        }
+        formData.append("phoneNumber", userDetails.contact);
+        formData.append("email", userDetails.email);
+        formData.append("password", userDetails.password);
+        setButtonLoaing(false);
+        Services.signup(formData, setButtonLoaing, navigation);
+
+      }
+    }).catch((e) => {
+      console.log("error", e);
+    })
   }
-}
 
   // Render Functions
   return (
-    <View style={[ConstantStyles.screen, {padding: scale(0)}]}>
-      <View style={{height: scale(55), marginVertical: scale(25)}}>
+    <View style={[ConstantStyles.screen, { padding: scale(0) }]}>
+      <View style={{ height: scale(55), marginVertical: scale(25) }}>
         <Image
           source={require('../../Assets/Images/Banner.png')}
           style={ConstantStyles.bannerImage}
@@ -54,13 +77,13 @@ const onSubmit = () =>{
           paddingHorizontal: scale(20),
           marginBottom: scale(20),
         }}>
-        <View style={{marginVertical: scale(10)}}>
+        <View style={{ marginVertical: scale(10) }}>
           <Text style={ConstantStyles.mainHeadingText}>
             OTP Verification
           </Text>
         </View>
         <Text style={ConstantStyles.subText}>
-          We’ve just send you 4 digits code to your email test@gmail.com 
+          We’ve just send you 6 digits code to your Phone number
         </Text>
       </View>
       <View
@@ -82,14 +105,14 @@ const onSubmit = () =>{
           onChangeText={setValue}
           cellCount={CELL_COUNT}
           rootStyle={{
-            width: '60%',
-            alignSelf: 'center',
+            marginLeft: scale(5),
+            marginRight: scale(5),
             marginTop: verticalScale(100),
             marginBottom: scale(50),
           }}
           keyboardType="number-pad"
           textContentType="oneTimeCode"
-          renderCell={({index, symbol, isFocused}) => (
+          renderCell={({ index, symbol, isFocused }) => (
             <View
               style={{
                 backgroundColor: Colors.White,
@@ -108,8 +131,8 @@ const onSubmit = () =>{
                     fontFamily: Font.Manrope400,
                   },
                   isFocused && Platform.OS == 'ios'
-                    ? {lineHeight: verticalScale(30)}
-                    : {textAlignVertical: 'center'},
+                    ? { lineHeight: verticalScale(30) }
+                    : { textAlignVertical: 'center' },
                 ]}
                 onLayout={getCellOnLayoutHandler(index)}>
                 {symbol || (isFocused ? <Cursor /> : null)}
@@ -118,12 +141,14 @@ const onSubmit = () =>{
           )}
         />
         <CustomButton
-        onPress={onSubmit}
-        textStyle={{color: Colors.PrimaryBlue}}
-        containerRestyle={{marginTop: scale(30), backgroundColor:Colors.ScreenBackGroundColor}}
-        title={'Continue'}
-       />
+          onPress={onSubmit}
+          loading={buttonLoading}
+          textStyle={{ color: Colors.PrimaryBlue }}
+          containerRestyle={{ marginTop: scale(30), backgroundColor: Colors.ScreenBackGroundColor }}
+          title={'Continue'}
+        />
       </View>
+      <Toast config={toastConfig} />
     </View>
   );
 };

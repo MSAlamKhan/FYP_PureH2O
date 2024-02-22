@@ -1,7 +1,7 @@
-import {LOGIN, SIGNUP,  SEARCHEMAIL} from '../Types';
+import { LOGIN, SIGNUP, SEARCHEMAIL, CREDITS } from '../Types';
 
 const initilaState = {
-  email: null,
+  user: null,
 };
 
 const AuthReducer = (state = initilaState, action) => {
@@ -9,9 +9,13 @@ const AuthReducer = (state = initilaState, action) => {
     case LOGIN:
       return {
         ...state,
-        email: action.payload,
+        user: action.payload,
       };
-
+    case CREDITS:
+      return {
+        ...state,
+        user: { ...state.user, balance: action.payload },
+      };
     default:
       return state
   }

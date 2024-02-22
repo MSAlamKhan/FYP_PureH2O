@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DashBoardScreen from '../Screens/Shop/Dashboard';
+import DashBoardScreen from '../Screens/Customer/Dashboard';
 import { Image, View } from 'react-native';
 import { ConstantStyles } from '../Constants/Styles';
 import { moderateScale, scale } from 'react-native-size-matters';
@@ -15,25 +15,17 @@ import CustomerDetailScreen from '../Screens/Shop/CustomerDetails';
 import SubscriptionScreen from '../Screens/Shop/Subscription';
 import SettingsScreen from '../Screens/Common/Settings';
 import ChangePasswordScreen from '../Screens/Authentication/ChangePassword';
-import AddBankScreen from '../Screens/Shop/AddBank';
+import RechargeScreen from '../Screens/Customer/Recharge';
+import MyVendorScreen from '../Screens/Customer/MyVendor';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 // Main Navigator (Root Navigator)
 
-const ShopNavigator = () => {
+const CustomerNavigator = () => {
   return (
     <Drawer.Navigator
-      // drawerContent={()=> (
-      //   <View style={{height:scale(120),}}>
-      //     <Image
-      //   source={require('../Assets/Images/Banner.png')}
-      //     style={ConstantStyles.bannerImage}
-      //     />
-      //   </View>
-      // )}
-
       screenOptions={{
         headerShown: false,
         drawerStyle: {
@@ -42,16 +34,15 @@ const ShopNavigator = () => {
       }}>
       <Drawer.Screen name="My Dashboard" component={Home} />
       <Drawer.Screen name="My Profile" component={ProfileScreen} />
+      <Drawer.Screen name="My Vendor" component={MyVendorScreen} />
       <Drawer.Screen name="My Wallet" component={Wallet} />
-      <Drawer.Screen name="My Inventory" component={InventoryScreen} />
-      <Drawer.Screen name="My Customers" component={Customer} />
-      <Drawer.Screen name="My Subscription" component={SubscriptionScreen} />
       <Drawer.Screen name="Settings" component={Settings} />
+
     </Drawer.Navigator>
   );
 };
 
-export default ShopNavigator;
+export default CustomerNavigator;
 
 // children Stack navigators
 
@@ -68,20 +59,12 @@ const Wallet = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Wallet" component={WalletScreen} />
-      <Stack.Screen name="Withdraw" component={WithdrawScreen} />
-      <Stack.Screen name="AddBank" component={AddBankScreen} />
+      <Stack.Screen name="Recharge" component={RechargeScreen} />
+
     </Stack.Navigator>
   );
 };
 
-const Customer = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Drawer.Screen name="Customers" component={CustomerScreen} />
-      <Stack.Screen name="Customer-Details" component={CustomerDetailScreen} />
-    </Stack.Navigator>
-  );
-};
 
 const Settings = () =>
 (

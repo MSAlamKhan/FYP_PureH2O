@@ -6,7 +6,6 @@ const {Colors} = require('../../Constants/Colors');
 const {ConstantStyles} = require('../../Constants/Styles');
 
 const CustomerListTiles = ({item, onPress}) => {
-    console.log();
   // render Function
   return (
     <TouchableOpacity
