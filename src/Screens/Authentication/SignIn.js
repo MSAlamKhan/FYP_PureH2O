@@ -79,6 +79,7 @@ const SignInScreen = ({ navigation }) => {
           control={control}
           keyboardType="phone-pad"
           name="email"
+          maxLength={11}
           rules={{
             required: 'Phone Number is required',
             // pattern: {

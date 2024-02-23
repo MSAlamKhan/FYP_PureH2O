@@ -228,6 +228,7 @@ const SignUpScreen = ({ navigation }) => {
           control={control}
           keyboardType="number-pad"
           name="contact"
+          maxLength={11}
           rules={{
             required: 'Contact is required',
             // pattern: {

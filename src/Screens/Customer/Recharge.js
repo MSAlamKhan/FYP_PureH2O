@@ -117,8 +117,10 @@ const RechargeScreen = ({ navigation }) => {
                         control={control}
                         keyboardType="number-pad"
                         name="CardNumber"
+                        maxLength={16}
                         rules={{
                             required: 'CardNumber is required',
+                        
                         }}
                         placeholder="Card Number"
                     />
@@ -138,6 +140,7 @@ const RechargeScreen = ({ navigation }) => {
                         control={control}
                         keyboardType="number-pad"
                         name="CVVNumber"
+                        maxLength={3}
                         rules={{
                             required: 'CVV is Required',
                             // pattern: {

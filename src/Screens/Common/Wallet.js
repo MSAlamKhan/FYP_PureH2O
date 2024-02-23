@@ -107,7 +107,7 @@ const WalletScreen = ({ navigation }) => {
                 </View>
                 <Text
                   style={{ fontFamily: Font.Poppins600, color: Colors.Black }}>
-                  {`$${item.amount}`}
+                  {`Rs. ${item.amount}`}
                 </Text>
               </View>
             </View>
